@@ -1,0 +1,3 @@
+# Project exclude paths
+/venv/
+/venv/Lib/site-packages/cv2/

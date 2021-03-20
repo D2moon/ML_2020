@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+ <title>批量上传图片并显示</title>
+ <meta charset='utf-8'>
+ <script src='https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js'></script>
+</head>
+
+<body>
+<div onclick="navi('image');"> <a href="file:///C:/Users/mac/PycharmProjects/tsst2.html">返回</a></div>
+<input id='send' type='file' multiple><br>
+</body>
+<script>
+ $('#send').change(function () {
+  var files = $('#send')[0].files;
+  var form = new FormData();
+  for (var i = 0; i < files.length; i++) {
+   //插入form
+   var file = files[i];
+   var t1 = files[i].name;
+   console.log(files[i].name)
+   form.append('files', file);
+   $('body').append('<p>'+ files[i].name + '</p>');
+   form.append('names', '123')
+   //显示图片
+   var fileReader = new FileReader();
+   fileReader.readAsDataURL(file);
+   fileReader.onloadend = function (event) {
+    var src = event.target.result;
+    $('body').append('<img src=' + src + ' width=200px>');
+   }
+  }
+
+  //上传
+  $.ajax({
+   type: 'POST',
+   url: '/upload',
+   data: form,
+   processData: false,
+   contentType: false,
+   success: function (response) {
+    console.log(response)
+   }
+  });
+ })
+</script>
+</html>
